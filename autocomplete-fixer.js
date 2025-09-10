@@ -1,7 +1,11 @@
-<script>
 /**
  * Squarespace Form Autocomplete Fixer
  * ----------------------------------------------------------------
+ *
+ * Pain:
+ *   - 24Moves.com was asked to repair issues with a squarespace website that
+ *     that failed automated WCAG tests and provided a poor user experience.
+ *
  * Purpose:
  *   - Squarespace often renders inputs with autocomplete="false" or no
  *     autocomplete. That breaks browser autofill and accessibility.
@@ -282,4 +286,4 @@
   }
 
 })();
-</script>
+
