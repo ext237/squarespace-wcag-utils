@@ -1,0 +1,7 @@
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Node (if you ever add tooling)
+node_modules/
+npm-debug.log
