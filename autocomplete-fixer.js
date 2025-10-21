@@ -227,30 +227,30 @@
   }
 
   // ===== Your bootstrap (kept exactly) ====================================
-  function myFunction() {
-    log("myFunction invoked.");
+  function doLoadFunction() {
+    log("Load Function invoked (doLoadFunction).");
     scanWithRetries();
   }
 
   // Run initial load
-  myFunction();
+  doLoadFunction();
   log("Initial run invoked.");
 
   // Run again after Squarespace builds AJAX page
   var Y = window.Y || undefined; // avoid blowing up if YUI is missing
-  window.Squarespace && window.Squarespace.onInitialize && window.Squarespace.onInitialize(Y, myFunction);
+  window.Squarespace && window.Squarespace.onInitialize && window.Squarespace.onInitialize(Y, doLoadFunction);
 
   // Bonus: fallback for AJAX navigation
   window.addEventListener("mercury:load", function(e){
     log("Event mercury:load fired.", e && e.detail ? e.detail : "");
-    myFunction();
+    doLoadFunction();
   });
 
   // Extra fallback: catch body changes via MutationObserver (your example)
   try {
     new MutationObserver(function(muts){
       log("Body-id MutationObserver fired.");
-      myFunction();
+      doLoadFunction();
     }).observe(document.body, { attributes: true, attributeFilter: ["id"] });
     log("Body-id MutationObserver attached.");
   } catch(e) {
