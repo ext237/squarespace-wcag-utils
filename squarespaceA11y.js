@@ -34,9 +34,14 @@
   'use strict';
 
   const BASE_URL = 'https://cdn.jsdelivr.net/gh/ext237/squarespace-wcag-utils@main/';
+  const defaultConfig = {
+    logging: true,
+    excludeFixes: [] // e.g., ["focusVisible", "skipToMain"]
+  };
+
   const sqsA11y = {
-    version: '0.2.0',
-    config: window.sqsA11yConfig || { logging: true },
+    version: '0.3.0',
+    config: Object.assign({}, defaultConfig, window.sqsA11yConfig || {}),
     fixes: [],
     utils: null,
 
@@ -61,6 +66,11 @@
     },
 
     async loadFix(name, wcagRef) {
+      if (this.config.excludeFixes.includes(name)) {
+        this.log(`Skipped: ${name} (excluded by config)`);
+        return;
+      }
+
       const url = `${BASE_URL}fixes/fix_${name}.js`;
       const module = await this.loadScript(url);
       if (module && module[`fix_${name}`]) {
@@ -75,10 +85,10 @@
     async init() {
       await this.loadUtils();
 
-      // List of fixes to apply
       const fixList = [
         { name: 'skipToMain', wcag: 'WCAG 2.4.1' },
-        // Add more here as you create them
+        { name: 'focusVisible', wcag: 'WCAG 2.4.7' }
+        // Add more here as they’re created
       ];
 
       for (const fix of fixList) {
