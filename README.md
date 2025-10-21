@@ -9,6 +9,7 @@ Each script targets a specific WCAG 2.1/2.2 AA checkpoint and can be loaded inde
 - Each fix is a standalone script that can be maintained, versioned, and selectively loaded.
 
 ## Current Structure
+```text
 squarespace-wcag-utils/
 ├── squarespaceA11y.js           ← Main loader
 ├── utils/
@@ -17,6 +18,7 @@ squarespace-wcag-utils/
     ├── fix_skipToMain.js
     ├── fix_focusVisible.js
     └── (more to come)
+```
 
 ## How It Works
 - `squarespaceA11y.js` loads from a public CDN (jsDelivr) and dynamically imports each fix file from the same repo.
