@@ -27,6 +27,7 @@
 export function fix_skipToMain() {
 	const FIX_ID = "FIX-5";
 	const FIX_DESC = "Skip to Main Content applied";
+	console.warn(`[WCAG] ${FIX_ID}: updating skip to main link.`);
 
 	let skipLink = document.getElementById("acc-skip-link");
 
