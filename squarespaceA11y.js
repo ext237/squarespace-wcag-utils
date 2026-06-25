@@ -107,6 +107,8 @@
 	 */
 
 	const ENHANCEMENT_LIST = [
+
+		// REMEDIATIONS:
 		{ name: "focusOutline", wcag: "WCAG 2.4.7", debug: DEBUG },
 		{ name: "targetSizeMinimum", wcag: "WCAG 2.5.8", debug: false /*DEBUG*/ },
 		{ name: "skipToMain", wcag: "WCAG 2.4.1", debug: DEBUG },
@@ -118,7 +120,6 @@
 		{ name: "emptyButtons", wcag: "WCAG 1.1.1, 2.4.6, 4.1.2", debug: DEBUG },
 		{ name: "labelIssues", wcag: "WCAG 1.3.1, 2.4.6, 4.1.2", debug: DEBUG },
 		{ name: "autocompleteEnhancer", wcag: "WCAG 1.3.5", debug: DEBUG },
-		{ name: "headingAudit", wcag: "WCAG 1.3.1 / 2.4.6", debug: DEBUG },
 		{ name: "contactLinkContext", wcag: "WCAG 1.3.1, 2.4.4, 3.1.5, 4.1.2", debug: DEBUG },
 		{ name: "pdfLinkEnhancer", wcag: "WCAG 2.4.4, 3.2.2", debug: DEBUG },
 		{ name: "formStatusAnnouncer", wcag: "WCAG 4.1.3", debug: DEBUG },
@@ -134,14 +135,16 @@
 		{ name: "duplicateFormErrorTextCleaner", wcag: "WCAG 3.3.1, 3.3.2, 4.1.2", debug: DEBUG },
 
 		/**
-		 * IMPORTANT: Do not enable textSpacingAudit in production.
-		 *
-		 * This is an audit-only utility for WCAG 1.4.12 testing.
-		 * It temporarily applies test CSS for line height, letter spacing,
-		 * word spacing, and paragraph spacing so the site can be visually
-		 * reviewed for clipped, hidden, overlapping, or cut-off text.
+		 * IMPORTANT: Do not enable audit-only enhancements in production.
+		 * These enhancements are intended for review and remediation work only.
+		 * Excessive logging and warnings may be generated, causing performance issues
+		 * or false positives on complex Squarespace layouts.
 		 */
+
+		// AUDIT-ONLY:
 		//{ name: "textSpacingAudit", wcag: "WCAG 1.4.12", debug: true },
+		//{ name: "headingAudit", wcag: "WCAG 1.3.1 / 2.4.6", debug: DEBUG },
+
 	];
 
 	/*
