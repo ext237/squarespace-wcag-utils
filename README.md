@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/sqs-a11y-logo.svg" alt="SqsA11y logo" width="220">
+</p>
+
 # SqsA11y
 
 Accessibility enhancement utilities for Squarespace websites.
@@ -7,6 +11,39 @@ Library: `squarespace-wcag-utils`
 
 Copyright (c) 2026 Joe Lippeatt / 24Moves Consulting
 Licensed under the MIT License.
+
+## Introduction
+
+SqsA11y started during an accessibility evaluation, documentation, and remediation project for three Squarespace websites. Early in that process, I found a Squarespace help forum discussion about WCAG compliance, which led me to the official [Squarespace Accessibility Resources](https://support.squarespace.com/hc/en-us/articles/215129127-Accessibility-resources-at-Squarespace) page.
+
+Squarespace recommends following the [Web Content Accessibility Guidelines (WCAG)](https://www.w3.org/TR/WCAG22/). However, I quickly found that some accessibility issues, especially on Squarespace 7.0 websites, are difficult to evaluate or remediate through the Squarespace editor alone.
+
+For example, some templates and blocks provide limited control over accessible link text, image alt text, focus behavior, form labeling, and other details that are important during a WCAG review.
+
+With those limitations in mind, I began building small JavaScript utilities to address specific issues one at a time. The first scripts focused on form field behavior and duplicate screen reader announcements. As the number of scripts grew, they became harder to manage individually, so I organized them into this library.
+
+SqsA11y was designed so it could be modified on a per-site, per-template basis, as not all Squarespace sites are built the same.  It is not a replacement for a manual accessibility audit, and it does not guarantee WCAG compliance. It is a collection of practical enhancements intended to help improve accessibility on Squarespace websites where the platform does not provide enough direct control.
+
+
+## Key Sections
+
+**Important sections of this document**
+
+- [Important Before You Install](#important-before-you-install)
+- [What This Library Does](#what-this-library-does)
+- [What This Library Cannot Do](#what-this-library-cannot-do)
+- [Supported Squarespace Versions](#supported-squarespace-versions)
+- [Installation](#installation)
+- [Configuration Options](#configuration-options)
+- [Hosting Options](#hosting-options)
+- [Test the Installation](#test-the-installation)
+- [Recommended Use During a WCAG Review](#recommended-use-during-a-wcag-review)
+- [Creating New Enhancements](#creating-new-enhancements)
+- [Known Limitations](#known-limitations)
+- [WCAG Enhancement Map](#wcag-enhancement-map)
+- [Potential Future Enhancements](#potential-future-enhancements)
+- [WCAG Criteria Not Suitable for JavaScript Remediation](#wcag-criteria-not-suitable-for-javascript-remediation)
+- [License](#license)
 
 ## Overview
 
@@ -101,7 +138,7 @@ squarespace-wcag-utils/
 Most accessibility behavior lives in the enhancements/ directory. Each enhancement file is documented with related WCAG criteria, Squarespace context, dependencies, and implementation notes.
 ```
 
-## How It Works
+## Runtime Behavior
 
 - `squarespaceA11y.js` loads shared utility files first.
 - It then loads individual enhancement modules from `/enhancements/`.
