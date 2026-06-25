@@ -8,6 +8,8 @@
  * Related WCAG Criteria:
  *   - 1.3.1 Info and Relationships
  *   - 2.4.6 Headings and Labels
+ *   - 3.3.1 Error Identification - Repairs broken textarea error references when a matching visible Squarespace error message exists.
+ *   - 3.3.2 Labels or Instructions - Preserves programmatic connections between form fields and related label or error instruction text.
  *   - 4.1.2 Name, Role, Value
  *
  * Description:
@@ -33,6 +35,9 @@
  *   This enhancement supports accessibility review and remediation work.
  *   It does not guarantee WCAG compliance on its own.
  */
+
+
+// TODO: Consider breaking this up into smaller functions and renumbering the sections.
 
 (function (window, document) {
 	window.sqsA11y = window.sqsA11y || {};

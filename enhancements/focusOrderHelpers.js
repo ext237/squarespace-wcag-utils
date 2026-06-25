@@ -28,6 +28,11 @@
  *   It does not guarantee WCAG compliance on its own.
  */
 
+// TODO: Re-test active focus movement after anchor navigation and mercury:load.
+// This utility currently prepares targets with tabindex="-1", but the actual
+// focus() calls are disabled until behavior is confirmed across Squarespace
+// 7.0, 7.1, browser history navigation, and screen reader combinations.
+
 (function (window, document) {
 	// Ensure the global sqsA11y namespace exists.
 	// This allows multiple accessibility fixes to share one common object.

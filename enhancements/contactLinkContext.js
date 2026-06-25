@@ -44,7 +44,7 @@
 		let repairedCount = 0;
 
 		const ENH_NAME = options.name || "contactLinkContext";
-		const WCAG = options.wcag || "WCAG 1.3.1, 2.4.4, 3.1.5, 4.1.2";
+		const WCAG = options.wcag || "WCAG 1.3.1, 2.4.4, 4.1.2";
 
 		utils.reportUpdate(null, ENH_NAME, `(${WCAG}) - Enhancement called.`, debug);
 

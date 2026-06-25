@@ -6,7 +6,8 @@
  * License: MIT
  *
  * Related WCAG Criteria:
- *   - 2.5.8 Target Size (Minimum)
+ *   - 2.5.8 Target Size (Minimum) - Applies minimum sizing to common interactive targets.
+ *   - 2.4.7 Focus Visible - Includes a small navigation alignment adjustment that may help focus outlines display more predictably.
  *
  * Description:
  *   Applies a JavaScript-based enhancement for interactive elements that may
@@ -24,6 +25,23 @@
  *   This enhancement supports accessibility review and remediation work.
  *   It does not guarantee WCAG compliance on its own.
  */
+
+// TODO: Recheck whether min-width and min-height reliably affect all targeted
+// anchors. Inline links may not honor width/height sizing unless they are also
+// changed to inline-flex, inline-block, or another box-generating display mode.
+
+// TODO: Confirm that broad sizing on all links is safe for inline text links.
+// WCAG 2.5.8 includes exceptions, and paragraph text links may not always need
+// forced 24x24 target sizing if the surrounding sentence provides enough spacing
+// or if changing the link box affects text layout.
+
+// TODO: Review whether the enhancement should be applied to all anchors, or
+// only to anchors that are visually styled as buttons. Some Squarespace templates
+// may use custom styles for button-like links, and the enhancement may need to
+// be applied more selectively to avoid unintended layout shifts.
+
+// TODO: Check the injectStyleOnce() call signature. The second argument is currently unused.
+
 
 (function (window, document) {
 	window.sqsA11y = window.sqsA11y || {};

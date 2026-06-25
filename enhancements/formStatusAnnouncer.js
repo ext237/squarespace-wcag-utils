@@ -30,6 +30,11 @@
  *   It does not guarantee WCAG compliance on its own.
  */
 
+// TODO: Confirm whether the success/failure announcement should use the actual
+// .form-submission-text content instead of the generic
+// "Form submitted successfully." message when Squarespace provides useful
+// custom confirmation text.
+
 (function (window, document) {
 	window.sqsA11y = window.sqsA11y || {};
 	window.sqsA11y.enhancements = window.sqsA11y.enhancements || {};

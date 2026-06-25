@@ -20,6 +20,13 @@
  *   • Does not affect users who have not requested reduced motion.
  */
 
+// TODO: Retest the early reduced-motion check. The code reports that no
+// changes were applied when prefers-reduced-motion is not active, but it does
+// not return, so styles are still injected and elements are still marked.
+
+// TODO: Check the injectStyleOnce() call signature. The
+// selector argument is currently unused. Consider using it as the target for the style injection or remove it if unnecessary.
+
 (function (window, document) {
 	"use strict";
 
@@ -43,9 +50,10 @@
 			utils.reportUpdate(
 				null,
 				ENH_NAME,
-				`(${WCAG}) - seems to prefer no reduced motion. No changes applied.`,
+				`(${WCAG}) - user seems to prefer no reduced motion. No changes applied.`,
 				debug,
 			);
+			return;
 		}
 
 		function injectReducedMotionStyles() {

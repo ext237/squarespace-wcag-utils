@@ -17,7 +17,7 @@
  * Squarespace Context:
  *   - Squarespace forms may include visible "(required)" text inside labels.
  *   - The associated input may also include required or aria-required="true".
- *   - Some screen reader/browser combinations may announce this a          as
+ *   - Some screen reader/browser combinations may announce this as
  *     "required required".
  *
  * Behavior:

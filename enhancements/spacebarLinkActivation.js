@@ -6,7 +6,7 @@
  * License: MIT
  *
  * Related WCAG Criteria:
- *   - 2.1.1 Keyboard Accessible
+ *   - 2.1.1 Keyboard - Adds Spacebar activation support for button-like links without changing normal link keyboard behavior.
  *
  * Description:
  *   Attempts to add Spacebar activation behavior to anchor elements that appear
@@ -29,6 +29,40 @@
  *   It does not guarantee WCAG compliance on its own.
  */
 
+// TODO: need to test if the listerner can be added twice on multiple runds.
+// So may need to add a guard before binding the delegated keydown listener. The code sets
+// document.body.dataset.spacebarLinksBound = "true", but it does not currently
+// check that value before adding another listener if the enhancement runs again.
+
+// TODO: Check whether this helper should reject placeholder links such as
+// href="#" or href="javascript:void(0)". The current check uses link.href,
+// which returns a browser-resolved URL even for some placeholder href values.
+// If a Squarespace button-style link does not point to a real destination,
+// Spacebar activation may trigger a meaningless click instead of helping
+// keyboard users.
+
+// TODO: Review Spacebar activation timing for button-like links.
+// Native button behavior usually prevents page scrolling on keydown, then
+// activates the button on keyup. This utility currently activates on keydown.
+// Consider changing the Spacebar handling to preventDefault() on keydown but
+// trigger link.click() on keyup, so the behavior more closely matches native
+// buttons and avoids repeated activation if the user holds the Spacebar down.
+
+// TODO: Consider adding a guard to prevent multiple activations if the user
+// holds the Spacebar down. Native buttons only activate once per key press,
+// but this utility currently activates on every keydown event, which may
+// trigger multiple activations if the user holds the Spacebar down for a
+// long time. This could be addressed by tracking the last activated link
+// and ignoring repeated keydown events until the Spacebar is released.
+
+// TODO: review whether this enhancement should be applied to links that are
+// visually styled as buttons but do not have a `role="button"` attribute or '
+// known button-style classes. Some Squarespace templates may use custom styles
+// for links that look like buttons, and it may be beneficial to include those in
+// the Spacebar activation behavior. However, this could also introduce unintended
+//behavior for links that are not meant to be activated with the Spacebar.
+
+
 (function (window, document) {
 	window.sqsA11y = window.sqsA11y || {};
 	window.sqsA11y.enhancements = window.sqsA11y.enhancements || {};
@@ -38,7 +72,7 @@
 		const utils = window.sqsA11y.utils || {};
 
 		const ENH_NAME = options.name || "spacebarLinkActivation";
-		const WCAG = options.wcag || "2.1.1";
+		const WCAG = options.wcag || "WCAG 2.1.1";
 
 		utils.reportUpdate(null, ENH_NAME, `(${WCAG}) - Enhancement called.`, debug);
 		document.body.dataset.spacebarLinksBound = "true";

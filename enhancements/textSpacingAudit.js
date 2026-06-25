@@ -236,7 +236,7 @@
 			const text = getVisibleText(el);
 
 			if (!text) return "";
-			if (text.length <= 80) return text;
+			if (text.length <= 370) return text;
 
 			return `${text.slice(0, 377)}...`;
 		}

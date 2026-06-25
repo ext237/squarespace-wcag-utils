@@ -30,6 +30,9 @@
  *   It does not guarantee WCAG compliance on its own.
  */
 
+// TODO: Check whether hasAccessibleName() should also detect meaningful img[alt]
+// text inside a button. If Squarespace outputs an image-only button with a
+// useful alt value, this utility may incorrectly treat the button as unnamed.
 
 (function (window, document) {
 	window.sqsA11y = window.sqsA11y || {};

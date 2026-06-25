@@ -29,6 +29,13 @@
  *   It does not guarantee WCAG compliance on its own.
  */
 
+// TODO: Retest whether aria-expanded stays synchronized when Squarespace
+// closes a dropdown because of outside clicks, blur, Escape, responsive menu
+// changes, or other native navigation behavior.
+
+// TODO: Consider whether identified dropdown triggers should also receive
+// aria-controls when a reliable submenu container ID can be found.
+
 (function (window, document) {
 	window.sqsA11y = window.sqsA11y || {};
 	window.sqsA11y.enhancements = window.sqsA11y.enhancements || {};
