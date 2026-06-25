@@ -250,6 +250,8 @@
 	// ------------------------------------------------------------
 	// injectStyleOnce()
 	// ------------------------------------------------------------
+	// Injects a <style> block into the document head if it doesn't already exist.
+	// TODO: The selector argument is currently unused. Consider using it as the target for the style injection or remove it if unnecessary.
 	utils.injectStyleOnce = function (id, selector, cssText, debug) {
 		const loggingEnabled = debug === true;// || window.sqsA11y?.config?.logging !== false;
 

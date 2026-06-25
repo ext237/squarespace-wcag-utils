@@ -2,6 +2,7 @@
  * Squarespace Accessibility Bootstrap - squarespaceA11y.js
  * --------------------------------------------------------
  * Library: squarespace-wcag-utils
+ * Version: 0.4.7
  * Author: Joe Lippeatt / 24Moves.com
  * License: MIT
  *
@@ -34,6 +35,9 @@
 	window.sqsA11y = window.sqsA11y || {};
 	window.sqsA11y.enhancements = window.sqsA11y.enhancements || {};
 
+	// version is currently not used for anything, but it is available for logging and debugging.
+	window.sqsA11y.version = "0.4.8";
+
 	// ===========================================================
 	// Config / bootstrap
 	// ===========================================================
@@ -54,39 +58,42 @@
 	const loadingScripts = window.sqsA11yLoadingScripts || (window.sqsA11yLoadingScripts = new Map());
 
 	/*
-	 * Primary debug default. Page-level config can override this.
+	 * Runtime configuration supplied by the page before this library loads.
 	 */
-	const DEBUG = false;
+	const CONFIG = window.sqsA11yConfig || {};
 
 	/*
-	 * Merge site/page configuration over local defaults.
+	 * Final debug flag.
 	 *
-	 * Example page config:
-	 * window.sqsA11yConfig = {
-	 *   logging: true,
-	 *   excludeEnhancements: [],
-	 *   version: "1.0.0"
-	 * };
+	 * Debug logging is enabled only when page-level config sets:
+	 * window.sqsA11yConfig.logging = true
+	 */
+	const DEBUG = CONFIG.logging === true;
+	//const DEBUG = true; // (global override for testing, uncomment to force debug logging)
+
+	/*
+	 * Merge site/page configuration over defaults.
 	 */
 	const config = Object.assign(
 		{
 			logging: DEBUG,
 			excludeEnhancements: [],
 		},
-		window.sqsA11yConfig || {},
+		CONFIG,
 	);
 
 	/*
 	 * Manual version string for cache busting.
 	 * Change this when deploying updated script files.
+	 * Use your own version or accept the default version from window.sqsA11y.version.
 	 */
-	const SCRIPT_VERSION = config.version || "v0.4.6";
+	const SCRIPT_VERSION = config.version || window.sqsA11y.version;
 
 	/**
-	 * Lightweight logger controlled by config.logging.
+	 * Lightweight logger controlled by the final DEBUG flag.
 	 */
 	function log() {
-		if (!config.logging) return;
+		if (!DEBUG) return;
 		console.log.apply(console, ["[sqsA11y]"].concat(Array.prototype.slice.call(arguments)));
 	}
 
@@ -98,34 +105,33 @@
 	 * Order matters where one enhancement should generally run before another.
 	 * labelIssues appears before autocompleteEnhancer for that reason.
 	 */
-	const DEFAULT_DEBUG = false;
 
 	const ENHANCEMENT_LIST = [
-		{ name: "focusOutline", wcag: "WCAG 2.4.7", debug: DEFAULT_DEBUG },
-		{ name: "targetSizeMinimum", wcag: "WCAG 2.5.8", debug: DEFAULT_DEBUG },
-		{ name: "skipToMain", wcag: "WCAG 2.4.1", debug: DEFAULT_DEBUG },
-		{ name: "smoothAnchorScrollFocus", wcag: "WCAG 2.4.1, 2.4.3, 2.4.7", debug: DEFAULT_DEBUG },
-		{ name: "navDropdownLinks", wcag: "WCAG 2.1.1, 4.1.2", debug: DEFAULT_DEBUG },
-		{ name: "mobileHamburger", wcag: "WCAG 2.1.1, 2.1.2", debug: DEFAULT_DEBUG },
-		{ name: "focusOrderHelpers", wcag: "WCAG 2.4.3", debug: DEFAULT_DEBUG },
-		{ name: "linkPurposeEnhancer", wcag: "WCAG 2.4.4", debug: DEFAULT_DEBUG },
-		{ name: "emptyButtons", wcag: "WCAG 1.1.1, 2.4.6, 4.1.2", debug: DEFAULT_DEBUG },
-		{ name: "labelIssues", wcag: "WCAG 1.3.1, 2.4.6, 4.1.2", debug: DEFAULT_DEBUG },
-		{ name: "autocompleteEnhancer", wcag: "WCAG 1.3.5", debug: DEFAULT_DEBUG },
-		{ name: "headingAudit", wcag: "WCAG 1.3.1 / 2.4.6", debug: DEFAULT_DEBUG },
-		{ name: "contactLinkContext", wcag: "WCAG 1.3.1, 2.4.4, 3.1.5, 4.1.2", debug: DEFAULT_DEBUG },
-		{ name: "pdfLinkEnhancer", wcag: "WCAG 2.4.4, 3.2.2", debug: DEFAULT_DEBUG },
-		{ name: "formStatusAnnouncer", wcag: "WCAG 4.1.3", debug: DEFAULT_DEBUG },
-		{ name: "spacebarLinkActivation", wcag: "WCAG 2.1.1", debug: DEFAULT_DEBUG },
-		{ name: "imagesWithoutContext", wcag: "WCAG 1.1.1, 2.4.4", debug: DEFAULT_DEBUG },
-		{ name: "videoFallbackImageAltCleaner", wcag: "WCAG 1.1.1", debug: DEFAULT_DEBUG },
-		{ name: "parallaxImageAltCleaner", wcag: "WCAG 1.1.1", debug: DEFAULT_DEBUG },
-		{ name: "filenameAltCleaner", wcag: "WCAG 1.1.1", debug: DEFAULT_DEBUG },
-		{ name: "focusNotObscured", wcag: "WCAG 2.4.11", debug: DEFAULT_DEBUG },
-		{ name: "newWindowLinkContext", wcag: "WCAG 2.4.4, 3.2.2", debug: DEFAULT_DEBUG },
-		{ name: "reducedMotionHelper", wcag: "WCAG 2.2.2, 2.3.3", debug: DEFAULT_DEBUG },
-		{ name: "duplicateRequiredTextCleaner", wcag: "WCAG 3.3.2, 4.1.2", debug: DEFAULT_DEBUG },
-		{ name: "duplicateFormErrorTextCleaner", wcag: "WCAG 3.3.1, 3.3.2, 4.1.2", debug: DEFAULT_DEBUG },
+		{ name: "focusOutline", wcag: "WCAG 2.4.7", debug: DEBUG },
+		{ name: "targetSizeMinimum", wcag: "WCAG 2.5.8", debug: false /*DEBUG*/ },
+		{ name: "skipToMain", wcag: "WCAG 2.4.1", debug: DEBUG },
+		{ name: "smoothAnchorScrollFocus", wcag: "WCAG 2.4.1, 2.4.3, 2.4.7", debug: DEBUG },
+		{ name: "navDropdownLinks", wcag: "WCAG 2.1.1, 4.1.2", debug: DEBUG },
+		{ name: "mobileHamburger", wcag: "WCAG 2.1.1, 2.1.2", debug: DEBUG },
+		{ name: "focusOrderHelpers", wcag: "WCAG 2.4.3", debug: DEBUG },
+		{ name: "linkPurposeEnhancer", wcag: "WCAG 2.4.4", debug: DEBUG },
+		{ name: "emptyButtons", wcag: "WCAG 1.1.1, 2.4.6, 4.1.2", debug: DEBUG },
+		{ name: "labelIssues", wcag: "WCAG 1.3.1, 2.4.6, 4.1.2", debug: DEBUG },
+		{ name: "autocompleteEnhancer", wcag: "WCAG 1.3.5", debug: DEBUG },
+		{ name: "headingAudit", wcag: "WCAG 1.3.1 / 2.4.6", debug: DEBUG },
+		{ name: "contactLinkContext", wcag: "WCAG 1.3.1, 2.4.4, 3.1.5, 4.1.2", debug: DEBUG },
+		{ name: "pdfLinkEnhancer", wcag: "WCAG 2.4.4, 3.2.2", debug: DEBUG },
+		{ name: "formStatusAnnouncer", wcag: "WCAG 4.1.3", debug: DEBUG },
+		{ name: "spacebarLinkActivation", wcag: "WCAG 2.1.1", debug: DEBUG },
+		{ name: "imagesWithoutContext", wcag: "WCAG 1.1.1, 2.4.4", debug: DEBUG },
+		{ name: "videoFallbackImageAltCleaner", wcag: "WCAG 1.1.1", debug: DEBUG },
+		{ name: "parallaxImageAltCleaner", wcag: "WCAG 1.1.1", debug: DEBUG },
+		{ name: "filenameAltCleaner", wcag: "WCAG 1.1.1", debug: DEBUG },
+		{ name: "focusNotObscured", wcag: "WCAG 2.4.11", debug: DEBUG },
+		{ name: "newWindowLinkContext", wcag: "WCAG 2.4.4, 3.2.2", debug: DEBUG },
+		{ name: "reducedMotionHelper", wcag: "WCAG 2.2.2, 2.3.3", debug: DEBUG },
+		{ name: "duplicateRequiredTextCleaner", wcag: "WCAG 3.3.2, 4.1.2", debug: DEBUG },
+		{ name: "duplicateFormErrorTextCleaner", wcag: "WCAG 3.3.1, 3.3.2, 4.1.2", debug: DEBUG },
 
 		/**
 		 * IMPORTANT: Do not enable textSpacingAudit in production.

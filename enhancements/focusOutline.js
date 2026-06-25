@@ -27,6 +27,10 @@
  *   It does not guarantee WCAG compliance on its own.
  */
 
+// TODO: Add listener deduping so focusin/focusout handlers are not attached
+// multiple times if this enhancement is called again after Squarespace AJAX
+// navigation or delayed script execution.
+
 (function (window, document) {
 	"use strict";
 

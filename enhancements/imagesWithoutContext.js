@@ -27,7 +27,7 @@
  * Dependencies:
  *   - sqsA11y-utils
  *   - utils.findLinkText()
- *   - utils.findNearbyTextForLink()
+ *   - utils.findNearestTextNode()
  *   - utils.reportUpdate()
  *
  * Notes:

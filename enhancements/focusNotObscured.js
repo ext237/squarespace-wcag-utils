@@ -25,6 +25,10 @@
  * TODO: This code has not been fully tested with both Squarespace 7.0 and 7.1 on all themes
  */
 
+// TODO: Recheck whether this should observe header height or layout changes after
+// page load. Sticky headers, announcement bars, mobile menus, or Squarespace AJAX
+// updates may change the needed scroll-margin-top after the first run.
+
 (function (window, document) {
 	"use strict";
 

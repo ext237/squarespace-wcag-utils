@@ -6,11 +6,16 @@
  * License: MIT
  *
  * Related WCAG Criteria:
- *   - 1.1.1 Non-text Content
+ *   - 1.1.1 Non-text Content - Treats Squarespace video background fallback
+ *		images as decorative and ensures they use alt="" so they are not
+ *		announced by assistive technologies.
  *
  * Description:
  *   Clears alt text from Squarespace video fallback images when those images
  *   are used as decorative poster/fallback images for video backgrounds.
+ *
+ *   This utility clears decorative fallback image alt text generally, not only
+ *   filename-based alt text.
  *
  * Squarespace Context:
  *   - Intended for common Squarespace 7.0 and 7.1 video background patterns.

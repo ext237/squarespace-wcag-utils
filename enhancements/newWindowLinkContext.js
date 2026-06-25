@@ -7,7 +7,8 @@
  *
  * WCAG References:
  *   2.4.4 - Link Purpose (In Context)
- *   3.2.2 - On Input
+ *   4.1.2 - Name, Role, Value
+ *   3.2.5 - Change on Request, optional AAA mapping only
  *
  * Description:
  *   Adds subtle visual and assistive context to links that open in a new
@@ -42,6 +43,11 @@
  *   predictability and link purpose context without altering visible
  *   content in a disruptive way.
  */
+
+// TODO: Check the injectStyleOnce() call. The second argument is currently
+// `.${TEXT_CLASS}`, but other utilities appear to pass a target location such
+// as "head". Confirm this matches the shared utility signature.
+
 (function (window, document) {
 	"use strict";
 

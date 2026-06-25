@@ -7,6 +7,8 @@
  *
  * Related WCAG Criteria:
  *   - 2.4.4 Link Purpose (In Context)
+ *   - 2.4.9 Link Purpose (Link Only), only if you are tracking AAA.
+ *   - 4.1.2 Name, Role, Value
  *
  * Description:
  *   Attempts to improve link purpose for vague Squarespace Summary links,
@@ -31,6 +33,13 @@
  *   This enhancement supports accessibility review and remediation work.
  *   It does not guarantee WCAG compliance on its own.
  */
+
+// TODO: Remove ENH_DESC if it is no longer used.
+
+// TODO: Recheck generated aria-label wording for vague phrases other than
+// "read more". Labels like "email about email example@example.com" or
+// "contact us about contact" may be awkward if those phrases appear in
+// Summary links.
 
 (function (window, document) {
 	window.sqsA11y = window.sqsA11y || {};

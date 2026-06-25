@@ -6,7 +6,9 @@
  * License: MIT
  *
  * Related WCAG Criteria:
- *   - 2.4.1 Bypass Blocks
+ *   - 2.4.1 Bypass Blocks - Provides a skip link for bypassing repeated navigation.
+ *   - 2.4.3 Focus Order - Moves focus to the main content target after skip link activation.
+ *   - 2.4.7 Focus Visible - the skip link is visually hidden until it receives focus.
  *
  * Description:
  *   Attempts to provide a "Skip to main content" link that appears on focus.
@@ -31,6 +33,16 @@
  *   This enhancement supports accessibility review and remediation work.
  *   It does not guarantee WCAG compliance on its own.
  */
+
+// TODO: mercury:load event listener may not be needed if the skip link is always present in the DOM. Retest 7.0 and 7.1 templates to confirm.
+
+// TODO: check for Squarespace's native skip link and avoid creating a duplicate if it exists. This is important for templates that already provide a skip link.
+
+// TODO: check the injectStyleOnce function for second argument usage.
+
+// TODO: Consider passing the click event into the skip-link handler and using
+// preventDefault() before manually focusing the target. This may avoid duplicate
+// browser anchor scrolling plus script-driven focus movement.
 
 (function (window, document) {
 	window.sqsA11y = window.sqsA11y || {};
@@ -117,7 +129,7 @@
 		if (!window._skipLinkBound) {
 			window._skipLinkBound = true;
 			document.addEventListener("mercury:load", () => {
-				window.sqsA11y.enhancements.ENH_skipToMain();
+				window.sqsA11y.enhancements.skipToMain();
 			});
 		}
 

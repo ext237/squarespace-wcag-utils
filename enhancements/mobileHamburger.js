@@ -8,6 +8,8 @@
  * Related WCAG Criteria:
  *   - 2.1.1 Keyboard
  *   - 2.1.2 No Keyboard Trap
+ *   - 1.4.11 Non-text Contrast
+ *   - 4.1.2 Name, Role, Value
  *
  * Description:
  *   Attempts to improve keyboard support for mobile hamburger menu toggles.
@@ -27,6 +29,10 @@
  *   This enhancement supports accessibility review and remediation work.
  *   It does not guarantee WCAG compliance on its own.
  */
+
+// TODO: Recheck whether WCAG 2.1.2 should remain in this file header. This
+// enhancement improves keyboard access to the toggle, but it does not directly
+// manage focus trapping, Escape behavior, menu exit, or focus return.
 
 (function (window, document) {
 	window.sqsA11y = window.sqsA11y || {};

@@ -28,6 +28,10 @@
  *   It does not guarantee WCAG compliance on its own.
  */
 
+// TODO: Consider whether heading audits should distinguish primary page content
+// from repeated global areas such as headers, footers, navigation, and injected
+// widgets. A full-page heading scan may report useful warnings, but it can also
+// create false positives on complex Squarespace layouts.
 
 (function (window, document) {
 	window.sqsA11y = window.sqsA11y || {};

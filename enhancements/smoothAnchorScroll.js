@@ -6,9 +6,10 @@
  * License: MIT
  *
  * Related WCAG Criteria:
- *   - 2.4.1 Bypass Blocks
- *   - 2.4.3 Focus Order
- *   - 2.4.7 Focus Visible
+ *   - 2.4.1 Bypass Blocks - Supports same-page bypass or section-jump links when present.
+ *   - 2.4.3 Focus Order - Moves focus to the anchor target after same-page navigation.
+ *   - 2.4.7 Focus Visible - Moves focus to the destination so the visible focus indicator can follow the scroll target.
+ *   - 2.3.3 Animation from Interactions - Respects prefers-reduced-motion for smooth scrolling. Level AAA.
  *
  * Description:
  *   Enhances same-page anchor links so they smoothly scroll to the target
@@ -27,155 +28,159 @@
  *   It does not guarantee WCAG compliance on its own.
  */
 
-(function (window, document) {
-	window.sqsA11y = window.sqsA11y || {};
-	window.sqsA11y.enhancements = window.sqsA11y.enhancements || {};
+// TODO: remove this from the project.  This is a duplicate of smoothAnchorScrollFocus.js, which is the correct file to use.  This file should be deleted.
 
-	window.sqsA11y.enhancements.smoothAnchorScrollFocus = function (options = {}) {
-		const debug = options.debug || false;
 
-		const utils = window.sqsA11y.utils || {};
 
-		const ENH_NAME = options.name;
-		const WCAG = options.wcag;
+// (function (window, document) {
+// 	window.sqsA11y = window.sqsA11y || {};
+// 	window.sqsA11y.enhancements = window.sqsA11y.enhancements || {};
 
-		utils.reportUpdate(null, ENH_NAME, `(${WCAG}) - Enhancement called.`, debug);
+// 	window.sqsA11y.enhancements.smoothAnchorScrollFocus = function (options = {}) {
+// 		const debug = options.debug || false;
 
-		/**
-		 * prefersReducedMotion()
-		 * ------------------------------------------------------------
-		 * Returns true if the visitor has requested reduced motion.
-		 */
-		function prefersReducedMotion() {
-			return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-		}
+// 		const utils = window.sqsA11y.utils || {};
 
-		/**
-		 * getSamePageAnchorTarget()
-		 * ------------------------------------------------------------
-		 * Returns the matching target element for a same-page anchor link.
-		 */
-		function getSamePageAnchorTarget(link) {
-			if (!link || !(link instanceof HTMLAnchorElement)) return null;
+// 		const ENH_NAME = options.name;
+// 		const WCAG = options.wcag;
 
-			const href = link.getAttribute("href");
-			if (!href || href === "#" || !href.startsWith("#")) return null;
+// 		utils.reportUpdate(null, ENH_NAME, `(${WCAG}) - Enhancement called.`, debug);
 
-			const anchorName = decodeURIComponent(href.slice(1));
-			if (!anchorName) return null;
+// 		/**
+// 		 * prefersReducedMotion()
+// 		 * ------------------------------------------------------------
+// 		 * Returns true if the visitor has requested reduced motion.
+// 		 */
+// 		function prefersReducedMotion() {
+// 			return window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+// 		}
 
-			let target = null;
+// 		/**
+// 		 * getSamePageAnchorTarget()
+// 		 * ------------------------------------------------------------
+// 		 * Returns the matching target element for a same-page anchor link.
+// 		 */
+// 		function getSamePageAnchorTarget(link) {
+// 			if (!link || !(link instanceof HTMLAnchorElement)) return null;
 
-			if (window.CSS && typeof window.CSS.escape === "function") {
-				const safeName = window.CSS.escape(anchorName);
-				target = document.querySelector(`#${safeName}, [name="${safeName}"]`);
-			} else {
-				target =
-					document.getElementById(anchorName) || document.querySelector(`[name="${anchorName}"]`);
-			}
+// 			const href = link.getAttribute("href");
+// 			if (!href || href === "#" || !href.startsWith("#")) return null;
 
-			return target;
-		}
+// 			const anchorName = decodeURIComponent(href.slice(1));
+// 			if (!anchorName) return null;
 
-		/**
-		 * focusTarget()
-		 * ------------------------------------------------------------
-		 * Moves focus to the target element.
-		 *
-		 * If the target is not naturally focusable, temporarily adds tabindex="-1".
-		 */
-		function focusTarget(target) {
-			if (!target || !(target instanceof Element)) return;
+// 			let target = null;
 
-			const naturallyFocusable = target.matches(
-				'a[href], button, input, select, textarea, iframe, [tabindex]:not([tabindex="-1"])',
-			);
+// 			if (window.CSS && typeof window.CSS.escape === "function") {
+// 				const safeName = window.CSS.escape(anchorName);
+// 				target = document.querySelector(`#${safeName}, [name="${safeName}"]`);
+// 			} else {
+// 				target =
+// 					document.getElementById(anchorName) || document.querySelector(`[name="${anchorName}"]`);
+// 			}
 
-			if (!naturallyFocusable && !target.hasAttribute("tabindex")) {
-				target.setAttribute("tabindex", "-1");
-				target.dataset.smoothAnchorFocusTempTabindex = "1";
-			}
+// 			return target;
+// 		}
 
-			target.focus({ preventScroll: true });
-		}
+// 		/**
+// 		 * focusTarget()
+// 		 * ------------------------------------------------------------
+// 		 * Moves focus to the target element.
+// 		 *
+// 		 * If the target is not naturally focusable, temporarily adds tabindex="-1".
+// 		 */
+// 		function focusTarget(target) {
+// 			if (!target || !(target instanceof Element)) return;
 
-		/**
-		 * attachSmoothAnchorScroll()
-		 * ------------------------------------------------------------
-		 * Adds the click handler to a qualifying same-page anchor link.
-		 */
-		function attachSmoothAnchorScroll(link) {
-			if (!link || !(link instanceof HTMLAnchorElement)) return { updated: 0, skipped: 1 };
+// 			const naturallyFocusable = target.matches(
+// 				'a[href], button, input, select, textarea, iframe, [tabindex]:not([tabindex="-1"])',
+// 			);
 
-			const HAS_RUN_MARK = "smoothAnchorScrollFocusAttached";
-			if (link.dataset[HAS_RUN_MARK] === "1") return { updated: 0, skipped: 1 };
+// 			if (!naturallyFocusable && !target.hasAttribute("tabindex")) {
+// 				target.setAttribute("tabindex", "-1");
+// 				target.dataset.smoothAnchorFocusTempTabindex = "1";
+// 			}
 
-			const target = getSamePageAnchorTarget(link);
-			if (!target) return { updated: 0, skipped: 1 };
+// 			target.focus({ preventScroll: true });
+// 		}
 
-			link.addEventListener("click", function (event) {
-				const target = getSamePageAnchorTarget(link);
-				if (!target) return;
+// 		/**
+// 		 * attachSmoothAnchorScroll()
+// 		 * ------------------------------------------------------------
+// 		 * Adds the click handler to a qualifying same-page anchor link.
+// 		 */
+// 		function attachSmoothAnchorScroll(link) {
+// 			if (!link || !(link instanceof HTMLAnchorElement)) return { updated: 0, skipped: 1 };
 
-				event.preventDefault();
+// 			const HAS_RUN_MARK = "smoothAnchorScrollFocusAttached";
+// 			if (link.dataset[HAS_RUN_MARK] === "1") return { updated: 0, skipped: 1 };
 
-				const behavior = prefersReducedMotion() ? "auto" : "smooth";
+// 			const target = getSamePageAnchorTarget(link);
+// 			if (!target) return { updated: 0, skipped: 1 };
 
-				target.scrollIntoView({
-					behavior: behavior,
-					block: "start",
-					inline: "nearest",
-				});
+// 			link.addEventListener("click", function (event) {
+// 				const target = getSamePageAnchorTarget(link);
+// 				if (!target) return;
 
-				// Update the URL hash without triggering the browser's default jump.
-				if (history.pushState) {
-					history.pushState(null, "", link.hash);
-				} else {
-					window.location.hash = link.hash;
-				}
+// 				event.preventDefault();
 
-				// Let scrolling begin before moving focus.
-				window.setTimeout(
-					function () {
-						focusTarget(target);
-					},
-					behavior === "smooth" ? 300 : 0,
-				);
-			});
+// 				const behavior = prefersReducedMotion() ? "auto" : "smooth";
 
-			link.dataset[HAS_RUN_MARK] = "1";
-			return { updated: 1, skipped: 0 };
-		}
+// 				target.scrollIntoView({
+// 					behavior: behavior,
+// 					block: "start",
+// 					inline: "nearest",
+// 				});
 
-		/**
-		 * enhanceSamePageAnchorLinks()
-		 * ------------------------------------------------------------
-		 * Finds same-page anchor links and attaches smooth scrolling behavior.
-		 */
-		function enhanceSamePageAnchorLinks() {
-			const links = document.querySelectorAll('a[href*="#"]');
+// 				// Update the URL hash without triggering the browser's default jump.
+// 				if (history.pushState) {
+// 					history.pushState(null, "", link.hash);
+// 				} else {
+// 					window.location.hash = link.hash;
+// 				}
 
-			let updated = 0;
-			let skipped = 0;
+// 				// Let scrolling begin before moving focus.
+// 				window.setTimeout(
+// 					function () {
+// 						focusTarget(target);
+// 					},
+// 					behavior === "smooth" ? 300 : 0,
+// 				);
+// 			});
 
-			links.forEach((link) => {
-				const result = attachSmoothAnchorScroll(link);
-				updated += result.updated;
-				skipped += result.skipped;
-			});
+// 			link.dataset[HAS_RUN_MARK] = "1";
+// 			return { updated: 1, skipped: 0 };
+// 		}
 
-			utils.reportUpdate(
-				null,
-				ENH_NAME,
-				`(${WCAG}) - ${updated} same-page anchor link(s) enhanced`,
-				debug,
-			);
+// 		/**
+// 		 * enhanceSamePageAnchorLinks()
+// 		 * ------------------------------------------------------------
+// 		 * Finds same-page anchor links and attaches smooth scrolling behavior.
+// 		 */
+// 		function enhanceSamePageAnchorLinks() {
+// 			const links = document.querySelectorAll('a[href*="#"]');
 
-			return { updated, skipped };
-		}
+// 			let updated = 0;
+// 			let skipped = 0;
 
-		enhanceSamePageAnchorLinks();
+// 			links.forEach((link) => {
+// 				const result = attachSmoothAnchorScroll(link);
+// 				updated += result.updated;
+// 				skipped += result.skipped;
+// 			});
 
-		utils.reportUpdate(null, ENH_NAME, `(${WCAG}) - Enhancement complete.`, debug);
-	};
-})(window, document);
+// 			utils.reportUpdate(
+// 				null,
+// 				ENH_NAME,
+// 				`(${WCAG}) - ${updated} same-page anchor link(s) enhanced`,
+// 				debug,
+// 			);
+
+// 			return { updated, skipped };
+// 		}
+
+// 		enhanceSamePageAnchorLinks();
+
+// 		utils.reportUpdate(null, ENH_NAME, `(${WCAG}) - Enhancement complete.`, debug);
+// 	};
+// })(window, document);

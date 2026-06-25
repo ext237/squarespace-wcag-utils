@@ -9,6 +9,7 @@
  *   - 2.4.4 Link Purpose (In Context) - Provides PDF file context for PDF links.
  *   - 2.4.6 Headings and Labels - Updates descriptive aria-label values when present.
  *   - 3.2.5 Change on Request - Discloses when PDF links open in a new window or tab.
+ *   - 4.1.2 Name, Role, Value - Adds hidden text to PDF links for screen readers.
  *
  * Description:
  *   Attempts to improve PDF link clarity by adding screen-reader-only context
@@ -32,6 +33,9 @@
  *   It does not guarantee WCAG compliance on its own.
  */
 
+ // TODO: need to check which is more correct: "opens in a new window" or "opens in a new tab" for WCAG 2.4.4 and 3.2.5.
+ // The WCAG examples use "window" but most users will see "tab" in their browser.
+
 (function (window, document) {
 	window.sqsA11y = window.sqsA11y || {};
 	window.sqsA11y.enhancements = window.sqsA11y.enhancements || {};
@@ -41,7 +45,7 @@
 		const utils = window.sqsA11y.utils || {};
 
 		const ENH_NAME = options.name || "pdfLinkEnhancer";
-		const WCAG = options.wcag || "WCAG 2.4.4, 3.2.5";
+		const WCAG = options.wcag || "WCAG 2.4.4, 2.4.6, 3.2.5, 4.1.2";
 
 		if (utils.reportUpdate) {
 			utils.reportUpdate(null, ENH_NAME, `(${WCAG}) - Enhancement called.`, debug);

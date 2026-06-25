@@ -27,6 +27,13 @@
  *   It does not guarantee WCAG compliance on its own.
  */
 
+// TODO: Consider whether isFilenameAlt() should compare the alt value to the
+// actual image filename, like filenameAltCleaner.js does, instead of clearing
+// any alt text that merely ends with an image file extension.
+
+// TODO: Consider adding a final summary report after all parallax images are
+// processed.
+
 (function (window, document) {
 	window.sqsA11y = window.sqsA11y || {};
 	window.sqsA11y.enhancements = window.sqsA11y.enhancements || {};

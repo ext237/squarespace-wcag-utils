@@ -1,13 +1,15 @@
 /**
- * Squarespace Accessibility Enhancement – smoothAnchorScroll.js
+ * Squarespace Accessibility Enhancement – smoothAnchorScrollFocus.js
  * ----------------------------------------------------------------
  * Library: squarespace-wcag-utils
  * Author: Joe Lippeatt / 24Moves.com
  * License: MIT
  *
  * Related WCAG Criteria:
- *   - 2.4.3 Focus Order
- *   - 2.4.1 Bypass Blocks
+ *   - 2.4.1 Bypass Blocks - Supports same-page bypass or section-jump links when present.
+ *   - 2.4.3 Focus Order - Moves focus to the anchor target after same-page navigation.
+ *   - 2.4.7 Focus Visible - Moves focus to the destination so the visible focus indicator can follow the scroll target.
+ *   - 2.3.3 Animation from Interactions - Respects prefers-reduced-motion for smooth scrolling. Level AAA.
  *
  * Description:
  *   Enhances same-page anchor links so they smoothly scroll to the target
@@ -25,6 +27,9 @@
  *   This enhancement supports accessibility review and remediation work.
  *   It does not guarantee WCAG compliance on its own.
  */
+
+// TODO: Consider whether temporary tabindex values should be removed on blur
+// when this utility adds data-smooth-anchor-focus-temp-tabindex="1".
 
 (function (window, document) {
 	window.sqsA11y = window.sqsA11y || {};
