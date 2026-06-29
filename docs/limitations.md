@@ -156,7 +156,7 @@ However, performance may be affected by:
 
 Audit-only enhancements are generally intended for review and testing. They are usually commented out or disabled by default. If you use or create audit-only enhancements, disable them after the audit documentation is complete.
 
-If a remediation enhancement causes a performance issue, it can be disabled by adding its enhancement name to the `window.sqsA11yConfig.excludeFixes` array.
+If a remediation enhancement causes a performance issue, it can be disabled by adding its enhancement name to the `window.sqsA11yConfig.excludeEnhancements` array.
 
 See `docs/installation.md` and `docs/configuration.md` for more details.
 

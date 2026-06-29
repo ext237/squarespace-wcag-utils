@@ -31,7 +31,7 @@ Open the browser developer console and paste the following snippet.
 ```js
 window.sqsA11yConfig = {
 	logging: true,
-	excludeFixes: []
+	excludeEnhancements: []
 };
 
 (function () {
@@ -70,7 +70,7 @@ Example Tampermonkey userscript:
 
 	window.sqsA11yConfig = {
 		logging: true,
-		excludeFixes: []
+		excludeEnhancements: []
 	};
 
 	var s = document.createElement("script");
@@ -104,7 +104,7 @@ To test a tagged release:
 ```js
 window.sqsA11yConfig = {
 	logging: true,
-	excludeFixes: []
+	excludeEnhancements: []
 };
 
 (function () {
@@ -121,7 +121,7 @@ Replace the GitHub username, repository name, and branch name as needed.
 ```js
 window.sqsA11yConfig = {
 	logging: true,
-	excludeFixes: []
+	excludeEnhancements: []
 };
 
 (function () {
@@ -138,7 +138,7 @@ If you host your development copy somewhere else, replace the script URL.
 ```js
 window.sqsA11yConfig = {
 	logging: true,
-	excludeFixes: []
+	excludeEnhancements: []
 };
 
 (function () {
@@ -150,12 +150,12 @@ window.sqsA11yConfig = {
 
 ## Disabling Specific Enhancements During Console Testing
 
-Use `excludeFixes` the same way you would in a normal installation.
+Use `excludeEnhancements` the same way you would in a normal installation.
 
 ```js
 window.sqsA11yConfig = {
 	logging: true,
-	excludeFixes: [
+	excludeEnhancements: [
 		"targetSizeMinimum",
 		"focusOutline"
 	]
