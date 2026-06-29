@@ -174,7 +174,7 @@ The fastest way to install SqsA11y is to load the main `squarespaceA11y.js` file
 <script>
   window.sqsA11yConfig = {
     logging: false,
-    excludeFixes: []
+    excludeEnhancements: []
   };
 
 (function () {
@@ -196,13 +196,13 @@ The fastest way to install SqsA11y is to load the main `squarespaceA11y.js` file
 
 ### Configuration options
 
-The `window.sqsA11yConfig` object has two values, `logging` and `excludeFixes`.
+The `window.sqsA11yConfig` object has two values, `logging` and `excludeEnhancements`.
 
 - `logging`
   - Set to `true` during testing, debugging, or WCAG review.
   - Set to `false` for normal production use.
 
-- `excludeFixes`
+- `excludeEnhancements`
   - Use this array to disable specific enhancements if a site-specific conflict is found.
   - Leave it empty to allow all registered enhancements to run.
 
@@ -211,7 +211,7 @@ Example configuration with logging enabled and one enhancement disabled:
 ```js
   window.sqsA11yConfig = {
     logging: true,
-    excludeFixes: [
+    excludeEnhancements: [
       "textSpacingAudit"
     ]
   };
@@ -391,13 +391,13 @@ This allows the enhancement to continue running while suppressing its debug outp
 
 Individual enhancements can be disabled in either of two ways.
 
-**OPTION 1:** Add the enhancement name to the page-level `excludeFixes` list:
+**OPTION 1:** Add the enhancement name to the page-level `excludeEnhancements` list:
 
 ```html
 <script>
   window.sqsA11yConfig = {
     logging: true,
-    excludeFixes: ["targetSizeMinimum"]
+    excludeEnhancements: ["targetSizeMinimum"]
   };
 </script>
 ```
@@ -1148,6 +1148,10 @@ These items should be reviewed manually during a WCAG audit.
 - 3.3.4 Error Prevention (Legal, Financial, Data) - JavaScript cannot reliably evaluate whether transactions involving legal commitments, financial transactions, or user-submitted data provide adequate error prevention, confirmation, review, or reversal mechanisms.
 
 ## Changelog
+
+### v0.4.9
+
+- Additional updates from "excludeFixes" to "excludeEnhancements"
 
 ### v0.4.8
 

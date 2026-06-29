@@ -12,7 +12,7 @@ This configuration should be placed before the script that loads `squarespaceA11
 <script>
   window.sqsA11yConfig = {
     logging: false,
-    excludeFixes: []
+    excludeEnhancements: []
   };
 </script>
 ```
@@ -28,7 +28,7 @@ For normal production use, logging should usually be disabled.
 ```js
 window.sqsA11yConfig = {
   logging: false,
-  excludeFixes: []
+  excludeEnhancements: []
 };
 ```
 
@@ -39,7 +39,7 @@ During WCAG review, testing, troubleshooting, or site-specific implementation wo
 ```js
 window.sqsA11yConfig = {
   logging: true,
-  excludeFixes: []
+  excludeEnhancements: []
 };
 ```
 
@@ -53,9 +53,9 @@ When logging is enabled, individual enhancements may report:
 
 Console output is developer guidance only. It should not be treated as a pass/fail accessibility report.
 
-## `excludeFixes`
+## `excludeEnhancements`
 
-The `excludeFixes` option disables specific enhancements at the site level.
+The `excludeEnhancements` option disables specific enhancements at the site level.
 
 This is useful when:
 
@@ -70,21 +70,21 @@ Example:
 ```js
 window.sqsA11yConfig = {
   logging: true,
-  excludeFixes: [
+  excludeEnhancements: [
     "targetSizeMinimum",
     "focusOutline"
   ]
 };
 ```
 
-The values in `excludeFixes` must match the enhancement names registered in the library.
+The values in `excludeEnhancements` must match the enhancement names registered in the library.
 
 For example:
 
 ```text
 focusOutline.js
 window.sqsA11y.enhancements.focusOutline
-excludeFixes: ["focusOutline"]
+excludeEnhancements: ["focusOutline"]
 ```
 
 ## Full Load Example
@@ -94,7 +94,7 @@ excludeFixes: ["focusOutline"]
 <script>
   window.sqsA11yConfig = {
     logging: false,
-    excludeFixes: []
+    excludeEnhancements: []
   };
 
   (function () {
@@ -115,7 +115,7 @@ For production sites, a tagged release is usually safer than loading directly fr
 <script>
   window.sqsA11yConfig = {
     logging: false,
-    excludeFixes: []
+    excludeEnhancements: []
   };
 
   (function () {
@@ -215,7 +215,7 @@ This is different from setting `debug: false`.
 * `debug: false` keeps the enhancement active but suppresses its logs.
 * commenting out the enhancement prevents it from running.
 
-For deployed sites, prefer using `excludeFixes` instead of editing the library file directly.
+For deployed sites, prefer using `excludeEnhancements` instead of editing the library file directly.
 
 ## Recommended Review Configuration
 
@@ -224,7 +224,7 @@ During active WCAG review:
 ```js
 window.sqsA11yConfig = {
   logging: true,
-  excludeFixes: []
+  excludeEnhancements: []
 };
 ```
 
@@ -233,7 +233,7 @@ During production use after testing:
 ```js
 window.sqsA11yConfig = {
   logging: false,
-  excludeFixes: []
+  excludeEnhancements: []
 };
 ```
 
@@ -242,7 +242,7 @@ During troubleshooting:
 ```js
 window.sqsA11yConfig = {
   logging: true,
-  excludeFixes: [
+  excludeEnhancements: [
     "nameOfEnhancementToDisable"
   ]
 };
@@ -251,7 +251,7 @@ window.sqsA11yConfig = {
 ## Notes
 
 * Keep logging disabled on production sites unless active debugging is needed.
-* Use `excludeFixes` for site-level conflicts.
+* Use `excludeEnhancements` for site-level conflicts.
 * Use individual `debug` values to reduce noisy console output during development.
 * Use internal commenting only for local development or feature testing.
 * Always retest the site after changing configuration.

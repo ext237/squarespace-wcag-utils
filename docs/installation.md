@@ -24,7 +24,7 @@ The fastest way to install SqsA11y is to load the main `squarespaceA11y.js` file
 <script>
   window.sqsA11yConfig = {
     logging: false,
-    excludeFixes: []
+    excludeEnhancements: []
   };
 
   (function () {
@@ -47,7 +47,7 @@ Enable logging during WCAG review, testing, and troubleshooting.
 ```js
 window.sqsA11yConfig = {
   logging: true,
-  excludeFixes: []
+  excludeEnhancements: []
 };
 ```
 
@@ -58,14 +58,14 @@ Individual enhancements can be disabled if a site-specific conflict is identifie
 ```js
 window.sqsA11yConfig = {
   logging: true,
-  excludeFixes: [
+  excludeEnhancements: [
     "targetSizeMinimum",
     "focusOutline"
   ]
 };
 ```
 
-The values inside `excludeFixes` must match the enhancement names registered in the library.
+The values inside `excludeEnhancements` must match the enhancement names registered in the library.
 
 ## Installation Options
 
@@ -160,14 +160,14 @@ Verify:
 
 ### An Enhancement Causes a Problem
 
-Temporarily disable the enhancement using `excludeFixes`.
+Temporarily disable the enhancement using `excludeEnhancements`.
 
 Example:
 
 ```js
 window.sqsA11yConfig = {
   logging: true,
-  excludeFixes: ["targetSizeMinimum"]
+  excludeEnhancements: ["targetSizeMinimum"]
 };
 ```
 
@@ -180,7 +180,7 @@ Enable logging:
 ```js
 window.sqsA11yConfig = {
   logging: true,
-  excludeFixes: []
+  excludeEnhancements: []
 };
 ```
 
