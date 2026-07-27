@@ -109,7 +109,7 @@ window.sqsA11yConfig = {
 
 (function () {
 	var s = document.createElement("script");
-	s.src = "https://cdn.jsdelivr.net/gh/ext237/squarespace-wcag-utils@v0.4.8/squarespaceA11y.js?v=" + Date.now();
+	s.src = "https://cdn.jsdelivr.net/gh/ext237/squarespace-wcag-utils@v0.4.10/squarespaceA11y.js?v=" + Date.now();
 	document.head.appendChild(s);
 })();
 ```

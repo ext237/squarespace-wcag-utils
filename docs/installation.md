@@ -80,7 +80,7 @@ https://cdn.jsdelivr.net/gh/ext237/squarespace-wcag-utils@main/squarespaceA11y.j
 You may also load a specific tagged release.
 
 ```text
-https://cdn.jsdelivr.net/gh/ext237/squarespace-wcag-utils@v0.4.8/squarespaceA11y.js
+https://cdn.jsdelivr.net/gh/ext237/squarespace-wcag-utils@v0.4.10/squarespaceA11y.js
 ```
 
 Using a version tag is recommended for production websites because it prevents unexpected changes when future updates are released.
@@ -92,7 +92,7 @@ You may host the library on your own server.
 Example:
 
 ```text
-https://example.com/assets/squarespaceA11y.js?v=0.4.8
+https://example.com/assets/squarespaceA11y.js?v=0.4.10
 ```
 
 Self-hosting is recommended when:

@@ -120,7 +120,7 @@ For production sites, a tagged release is usually safer than loading directly fr
 
   (function () {
     var s = document.createElement("script");
-    s.src = "https://cdn.jsdelivr.net/gh/ext237/squarespace-wcag-utils@v0.4.8/squarespaceA11y.js";
+    s.src = "https://cdn.jsdelivr.net/gh/ext237/squarespace-wcag-utils@v0.4.10/squarespaceA11y.js";
     document.head.appendChild(s);
   })();
 </script>

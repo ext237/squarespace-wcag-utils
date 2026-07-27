@@ -6,7 +6,7 @@
 
 Accessibility enhancement utilities for Squarespace websites.
 
-Current version: v0.4.8
+Current version: v0.4.10
 Library: `squarespace-wcag-utils`
 
 Copyright (c) 2026 Joe Lippeatt / 24Moves Consulting
@@ -240,10 +240,10 @@ The `@main` CDN URL loads the current version from the main branch of the GitHub
 For example:
 
 ```text
-https://cdn.jsdelivr.net/gh/ext237/squarespace-wcag-utils@v0.4.8/squarespaceA11y.js
+https://cdn.jsdelivr.net/gh/ext237/squarespace-wcag-utils@v0.4.10/squarespaceA11y.js
 ```
 
-Replace `v0.4.8` with the version tag you want to use.
+Replace `v0.4.10` with the version tag you want to use.
 
 > [!NOTE]
 > If you need site-specific changes, do not load directly from the `@main` branch. Fork the repository or host your own tested copy so your changes can be versioned and maintained separately.
@@ -259,7 +259,7 @@ Because Squarespace versions, templates, custom code, and third-party integratio
 Example script `s.src` URL:
 
 ```text
-https://example.com/path/to/squarespaceA11y.js?v=0.4.8
+https://example.com/path/to/squarespaceA11y.js?v=0.4.10
 ```
 
 ### Option C: Other Production CDN
