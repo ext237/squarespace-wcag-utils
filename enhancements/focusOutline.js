@@ -495,10 +495,14 @@
 			const cs = getComputedStyle(el);
 			const bg = cs.backgroundColor;
 			const color = cs.color;
+			const isFormControl = el.matches("input, select, textarea");
 
 			let chosen = "";
 
-			if (!isTransparent(bg)) {
+			if (isFormControl && !isTransparent(color)) {
+				chosen = color;
+				utils.reportUpdate(el, ENH_NAME, `(${WCAG}) Chose Text Color (${el.id}) ${chosen}`, debug);
+			} else if (!isTransparent(bg)) {
 				chosen = bg;
 				utils.reportUpdate(
 					el,
@@ -524,7 +528,7 @@
 			el.style.outline = `2px solid ${chosen}`;
 			el.style.outlineOffset = "3px";
 
-			if (el.matches("input, select, textarea")) {
+			if (el.matches("input:not([type='checkbox']):not([type='radio']), select, textarea")) {
 				if (el.dataset.prevBackgroundColor === undefined) {
 					el.dataset.prevBackgroundColor = el.style.backgroundColor || "";
 					el.dataset.prevColor = el.style.color || "";
@@ -574,7 +578,7 @@
 				delete el.dataset.prevDisplay;
 			}
 
-			if (el.matches("input, select, textarea")) {
+			if (el.matches("input:not([type='checkbox']):not([type='radio']), select, textarea")) {
 				if (el.dataset.prevBackgroundColor !== undefined) {
 					el.style.backgroundColor = el.dataset.prevBackgroundColor;
 					delete el.dataset.prevBackgroundColor;
@@ -659,6 +663,15 @@
 
 			clearOutline(el);
 		}
+
+		const BOUND_ATTR = "sqsA11yFocusOutlineBound";
+
+		if (document.documentElement.dataset[BOUND_ATTR] === "true") {
+			utils.reportUpdate(null, ENH_NAME, `(${WCAG}) listeners already attached`, debug);
+			return;
+		}
+
+		document.documentElement.dataset[BOUND_ATTR] = "true";
 
 		// Attach global listeners so dynamically loaded focusable elements are also covered.
 		document.addEventListener("focusin", handleFocus);

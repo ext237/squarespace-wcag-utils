@@ -1149,6 +1149,13 @@ These items should be reviewed manually during a WCAG audit.
 
 ## Changelog
 
+### v0.4.10
+
+- Updated `focusOutline` so focused checkboxes and radio buttons preserve their native and Squarespace-rendered selected-state colors.
+- Updated `focusOutline` so form controls prefer their text color for a more visible focus outline.
+- Updated `focusOutline` to prevent duplicate global focus event listeners when enhancements run more than once.
+- Updated `labelIssues` to append screen-reader-only legend text without replacing existing label contents or removing nested form controls.
+
 ### v0.4.9
 
 - Additional updates from "excludeFixes" to "excludeEnhancements"

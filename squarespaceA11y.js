@@ -2,7 +2,7 @@
  * Squarespace Accessibility Bootstrap - squarespaceA11y.js
  * --------------------------------------------------------
  * Library: squarespace-wcag-utils
- * Version: 0.4.7
+ * Version: 0.4.10
  * Author: Joe Lippeatt / 24Moves.com
  * License: MIT
  *
