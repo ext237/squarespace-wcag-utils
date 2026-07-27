@@ -6,7 +6,7 @@
 
 Accessibility enhancement utilities for Squarespace websites.
 
-Current version: v0.4.8
+Current version: v0.4.10
 Library: `squarespace-wcag-utils`
 
 Copyright (c) 2026 Joe Lippeatt / 24Moves Consulting
@@ -240,10 +240,10 @@ The `@main` CDN URL loads the current version from the main branch of the GitHub
 For example:
 
 ```text
-https://cdn.jsdelivr.net/gh/ext237/squarespace-wcag-utils@v0.4.8/squarespaceA11y.js
+https://cdn.jsdelivr.net/gh/ext237/squarespace-wcag-utils@v0.4.10/squarespaceA11y.js
 ```
 
-Replace `v0.4.8` with the version tag you want to use.
+Replace `v0.4.10` with the version tag you want to use.
 
 > [!NOTE]
 > If you need site-specific changes, do not load directly from the `@main` branch. Fork the repository or host your own tested copy so your changes can be versioned and maintained separately.
@@ -259,7 +259,7 @@ Because Squarespace versions, templates, custom code, and third-party integratio
 Example script `s.src` URL:
 
 ```text
-https://example.com/path/to/squarespaceA11y.js?v=0.4.8
+https://example.com/path/to/squarespaceA11y.js?v=0.4.10
 ```
 
 ### Option C: Other Production CDN
@@ -1148,6 +1148,13 @@ These items should be reviewed manually during a WCAG audit.
 - 3.3.4 Error Prevention (Legal, Financial, Data) - JavaScript cannot reliably evaluate whether transactions involving legal commitments, financial transactions, or user-submitted data provide adequate error prevention, confirmation, review, or reversal mechanisms.
 
 ## Changelog
+
+### v0.4.10
+
+- Updated `focusOutline` so focused checkboxes and radio buttons preserve their native and Squarespace-rendered selected-state colors.
+- Updated `focusOutline` so form controls prefer their text color for a more visible focus outline.
+- Updated `focusOutline` to prevent duplicate global focus event listeners when enhancements run more than once.
+- Updated `labelIssues` to append screen-reader-only legend text without replacing existing label contents or removing nested form controls.
 
 ### v0.4.9
 

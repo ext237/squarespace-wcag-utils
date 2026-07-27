@@ -90,8 +90,10 @@
 				input && (input.hasAttribute("aria-label") || input.hasAttribute("aria-labelledby"));
 
 			if (legend && label && legendText && !labelText && !hasAriaName) {
-				label.textContent = legendText;
-				label.classList.add("sqs-a11y-sr-only");
+				const hiddenLabelText = document.createElement("span");
+				hiddenLabelText.classList.add("sqs-a11y-sr-only");
+				hiddenLabelText.textContent = legendText;
+				label.appendChild(hiddenLabelText);
 
 				utils.reportUpdate(
 					label,
