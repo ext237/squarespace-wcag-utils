@@ -1,0 +1,54 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Form error label regression checks</title>
+<pre id="results">Running...</pre>
+<form id="fixture"></form>
+<script src="../enhancements/duplicateFormErrorTextCleaner.js"></script>
+<script>
+/** Exercise the real enhancement with literal IDs and no CSS.escape support. */
+(function () {
+  const failures = [];
+  const cases = [];
+  const form = document.getElementById('fixture');
+  const check = (condition, message) => { if (!condition) failures.push(message); };
+  const escape = CSS.escape;
+  try {
+    CSS.escape = undefined;
+    ['normal', 'quote"id', 'back\\slash', 'both\\"id', 'line\nbreak', 'x"], label[for="other', '日本語', 'wrapped', 'custom'].forEach((id, index) => {
+      const label = document.createElement('label');
+      label.append('Field ' + index);
+      const error = document.createElement('span');
+      error.id = 'error-' + index;
+      error.className = 'form-field-error';
+      error.textContent = 'Required';
+      label.appendChild(error);
+      const input = document.createElement('input');
+      input.id = id;
+      input.required = true;
+      input.value = 'unchanged';
+      input.setAttribute('aria-invalid', 'true');
+      input.setAttribute('aria-describedby', error.id);
+      if (id === 'custom') input.setAttribute('aria-label', 'Custom name');
+      if (id === 'wrapped') label.appendChild(input);
+      else label.htmlFor = id;
+      form.appendChild(label);
+      if (id !== 'wrapped') form.appendChild(input);
+      cases.push({ input, label, error, index, text: label.textContent });
+    });
+    cases[0].input.focus();
+    window.sqsA11y.enhancements.duplicateFormErrorTextCleaner();
+    for (const { input, label, error, index, text } of cases) {
+      check(input.getAttribute('aria-label') === (input.id === 'custom' ? 'Custom name' : 'Field ' + index), 'Wrong accessible name: ' + index);
+      check(label.textContent === text && error.isConnected, 'Visible error or label changed: ' + index);
+      check(input.getAttribute('aria-describedby') === error.id, 'Error association changed: ' + index);
+      check(input.required && input.value === 'unchanged', 'Control behavior changed: ' + index);
+    }
+    check(document.activeElement === cases[0].input, 'Focus moved');
+  } catch (error) {
+    failures.push(error.stack || String(error));
+  } finally {
+    CSS.escape = escape;
+  }
+  document.getElementById('results').textContent = failures.length ? 'FAIL\n' + failures.join('\n') : 'PASS: literal IDs, wrapping labels, existing names, visible errors, values, required states, and focus';
+})();
+</script>

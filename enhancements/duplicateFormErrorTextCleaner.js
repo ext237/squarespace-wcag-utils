@@ -82,20 +82,18 @@
 		/**
 		 * getLabelForControl()
 		 * ------------------------------------------------------------
-		 * Finds the label associated with a control.
+		 * Finds the first explicit label, then falls back to a wrapping label.
+		 * Compares IDs as literal text without interpolating them into CSS.
+		 * @param {Element} control - Form control whose label is needed.
+		 * @returns {HTMLLabelElement|null} Matching label, or null if absent.
 		 */
 		function getLabelForControl(control) {
 			if (!control || !(control instanceof Element)) return null;
 
 			if (control.id) {
-				const escapedId =
-					typeof CSS !== "undefined" && typeof CSS.escape === "function"
-						? CSS.escape(control.id)
-						: control.id.replace(/"/g, '\\"');
-
-				const label = document.querySelector(`label[for="${escapedId}"]`);
-
-				if (label) return label;
+				for (const label of document.querySelectorAll("label[for]")) {
+					if (label.getAttribute("for") === control.id) return label;
+				}
 			}
 
 			return control.closest("label");
