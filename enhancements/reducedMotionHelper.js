@@ -66,6 +66,7 @@
 				@media (prefers-reduced-motion: reduce) {
 					[data-parallax-item],
 					[data-parallax-image-wrapper] {
+						position: absolute !important;
 						transform: none !important;
 						transition: none !important;
 						animation: none !important;
