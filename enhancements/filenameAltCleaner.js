@@ -139,11 +139,13 @@
 		 *   <noscript>, so this audit provides traceable documentation.
 		 *
 		 * Behavior:
-		 *   - Parses <noscript> fallback HTML.
+		 *   - Parses fallback HTML into detached, inert template contents.
 		 *   - Finds fallback <img> elements with alt text.
 		 *   - Compares the alt text to the image filename.
 		 *   - Reports matches as scanner/documentation findings.
-		 *   - Does not change the live DOM or the fallback markup.
+		 *   - Preserves fallback content; reporting may add a data-trace attribute.
+		 *   - Skips parsing failures without interrupting other enhancements.
+		 * @returns {void}
 		 */
 		function auditNoscriptFilenameAlts() {
 			const noscripts = Array.from(document.querySelectorAll("noscript"));
@@ -151,11 +153,24 @@
 			noscripts.forEach((noscript) => {
 				const html = noscript.textContent || noscript.innerHTML || "";
 
-				if (!html || !html.includes("<img")) return;
+				if (!html || !/<img\b/i.test(html)) return;
 
-				const parser = new DOMParser();
-				const doc = parser.parseFromString(html, "text/html");
-				const images = Array.from(doc.querySelectorAll("img[alt]"));
+				const template = document.createElement("template");
+				try {
+					// Inspection only: never attach, import, or clone these contents into
+					// the live document. Inert parsing is not HTML sanitization.
+					// Respect Trusted Types enforcement; do not create a bypass policy.
+					template.innerHTML = html;
+				} catch {
+					utils.reportUpdate(
+						null,
+						ENH_NAME,
+						`(${WCAG}) Skipped a noscript filename-alt audit because fallback HTML could not be parsed.`,
+						debug,
+					);
+					return;
+				}
+				const images = Array.from(template.content.querySelectorAll("img[alt]"));
 
 				images.forEach((img) => {
 					const alt = img.getAttribute("alt");

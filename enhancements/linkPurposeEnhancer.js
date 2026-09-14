@@ -146,24 +146,28 @@
 
 	};
 
+	/**
+	 * Derive label text from email links or same-site HTTP(S) paths.
+	 * @param {string} href - Raw link destination; never executed or navigated to.
+	 * @returns {string} Readable context, or an empty string for unsupported links.
+	 */
 	function getContextFromHref(href) {
-		// Ignore empty, placeholder, script, and telephone links.
-		if (!href || href === "#" || href.startsWith("javascript:") || href.startsWith("tel:")) {
+		// Ignore empty and placeholder links before resolving relative URLs.
+		if (!href || !href.trim() || href.trim() === "#") {
 			return "";
-		}
-
-		// Provide a useful email context for mailto links.
-		if (href.startsWith("mailto:")) {
-			const email = href
-				.replace(/^mailto:/i, "")
-				.split("?")[0]
-				.trim();
-
-			return email ? `email ${email}` : "";
 		}
 
 		try {
 			const url = new URL(href, window.location.origin);
+
+			// URL parsing normalizes schemes, including case and URL whitespace.
+			if (url.protocol === "mailto:") {
+				const email = url.pathname.trim();
+				return email ? `email ${email}` : "";
+			}
+
+			// Only web page URLs can supply path-based context.
+			if (url.protocol !== "https:" && url.protocol !== "http:") return "";
 
 			// Only use same-site URLs for fallback context.
 			if (url.origin !== window.location.origin) return "";

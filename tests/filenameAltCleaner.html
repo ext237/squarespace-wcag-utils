@@ -1,0 +1,81 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Filename alt audit regression checks</title>
+<pre id="results">Running...</pre>
+<script src="../enhancements/filenameAltCleaner.js"></script>
+<script>
+/**
+ * Run browser regression checks against the real enhancement.
+ * Open this file in a browser; the result reports failures explicitly.
+ * Fixtures are text inside noscript elements and must never activate.
+ */
+(async function () {
+  const failures = [];
+  const reports = [];
+  const fixtures = [];
+  const check = (condition, message) => { if (!condition) failures.push(message); };
+  window.sqsA11y.utils = {
+    reportUpdate(element, name, description) { reports.push({ element, description }); }
+  };
+  window.auditActivated = false;
+  class AuditProbe extends HTMLElement {
+    constructor() { super(); window.auditActivated = true; }
+  }
+  customElements.define('audit-probe', AuditProbe);
+  const samples = [
+    '<img src="https://audit.invalid/photo.jpg" alt="photo.jpg">',
+    '<IMG SRC="https://audit.invalid/My%20Photo.jpg?x=1" ALT="My Photo.jpg">',
+    '<img src="https://audit.invalid/a&amp;b.jpg" alt="a&amp;b.jpg">',
+    '<img src=https://audit.invalid/plain.jpg alt=plain.jpg>',
+    '<img src="https://audit.invalid/photo.jpg" alt="A meaningful description">',
+    '<img src="https://audit.invalid/no-alt.jpg">',
+    '<img src="https://audit.invalid/broken.jpg" alt="broken.jpg" onerror="window.auditActivated=true"><iframe src="https://audit.invalid/frame"></iframe><audit-probe></audit-probe><script>window.auditActivated=true;<\/script>',
+    '<div><img alt="malformed.jpg" src="https://audit.invalid/malformed.jpg"><div'
+  ];
+  try {
+    for (const markup of samples) {
+      const fixture = document.createElement('noscript');
+      fixture.textContent = markup;
+      document.body.appendChild(fixture);
+      fixtures.push(fixture);
+    }
+    const before = fixtures.map(node => node.outerHTML);
+    const countBefore = document.querySelectorAll('*').length;
+    window.sqsA11y.enhancements.filenameAltCleaner({ name: 'Test', wcag: '1.1.1' });
+    check(reports.filter(report => report.element).length === 6, 'Expected six filename matches');
+    check(fixtures.every((node, index) => node.outerHTML === before[index]), 'Fallback content changed');
+    check(document.querySelectorAll('*').length === countBefore, 'Parsed nodes entered the live document');
+    await new Promise(resolve => setTimeout(resolve, 300));
+    check(!window.auditActivated, 'Script, event handler, or custom element activated');
+    check(!performance.getEntriesByType('resource').some(entry => entry.name.includes('audit.invalid')), 'Fallback resource requested');
+
+    // Simulate a parser rejection (such as Trusted Types enforcement), then
+    // verify the audit proceeds to the next fallback without throwing.
+    const descriptor = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML');
+    let rejected = false;
+    reports.length = 0;
+    try {
+      Object.defineProperty(Element.prototype, 'innerHTML', {
+        ...descriptor,
+        set(value) {
+          if (this instanceof HTMLTemplateElement && !rejected) {
+            rejected = true;
+            throw new TypeError('Simulated policy rejection');
+          }
+          descriptor.set.call(this, value);
+        }
+      });
+      window.sqsA11y.enhancements.filenameAltCleaner({ name: 'Test', wcag: '1.1.1' });
+    } finally {
+      Object.defineProperty(Element.prototype, 'innerHTML', descriptor);
+    }
+    check(reports.some(report => report.description.includes('Skipped')), 'Parse failure not reported');
+    check(reports.filter(report => report.element).length === 5, 'Parse failure prevented later audits');
+  } catch (error) {
+    failures.push(error.stack || String(error));
+  } finally {
+    fixtures.forEach(node => node.remove());
+  }
+  document.getElementById('results').textContent = failures.length ? 'FAIL\n' + failures.join('\n') : 'PASS: audit findings, isolation, resource loading, and parse-failure recovery';
+})();
+</script>
